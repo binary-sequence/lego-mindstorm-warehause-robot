@@ -2,6 +2,7 @@
 
 task main() {
 	SetSensorLight(IN_3);
+	SetSensorLowspeed(IN_2);
 
 	int i_avg_light = avg_light();
 	TextOut(1, LCD_LINE1, "avg_light: ");
@@ -10,6 +11,8 @@ task main() {
 	long l_turn_time_90 = turn_time_90(i_avg_light);
 	TextOut(1, LCD_LINE2, "turn_time_90: ");
 	NumOut(6*13, LCD_LINE2, l_turn_time_90);
+
+	follow_line(i_avg_light, l_turn_time_90);
 
 	while(1);
 }

@@ -1,3 +1,5 @@
+#define POWER 50
+
 /**
   * avg_light
   *
@@ -9,6 +11,17 @@
   */
 int avg_light(void);
 /**
+  * follow_line
+  *
+  * @parameter int The average of light to find the line.
+  * @parameter long Time in milliseconds to turn 90 degree.
+  *
+  * The light sensor must be connected to port 3.
+  * The function has its own "POWER" (50).
+  *
+  */
+void follow_line(int i_avg_light, long l_turn_time_90);
+/**
   * turn_time_90
   *
   * @parameter int The average of light to find the line.
@@ -16,7 +29,6 @@ int avg_light(void);
   * @return long Time in milliseconds to turn 90 degree.
   *
   * The light sensor must be connected to port 3.
-  * The function has its own "POWER" (50).
   *
   */
 long turn_time_90(int i_avg_light);
@@ -77,6 +89,53 @@ int avg_light(void) {
 	i_avg_light = (i_min + i_max) / 2;
 
 	return i_avg_light;
+}
+
+void follow_line(int i_avg_light, long l_turn_time_90) {
+	int i_current_light = 0;
+	bool b_end_of_line = 0;
+	long l_current_time = CurrentTick();
+	long l_time_passed = 0;
+
+	while(b_end_of_line == false) {
+		i_current_light = Sensor(IN_3);
+
+		if(i_current_light <= 50) {
+			l_current_time = CurrentTick();
+
+			OnFwd(OUT_AB, POWER); // go ahead
+
+			// somebody/something in front of the robot
+			while(SensorUS(IN_2) < 20) {
+				Off(OUT_AB); // Stop motors
+				TextOut(0, LCD_LINE3, "Warning!!");
+			}
+			ClearScreen();
+		} else {
+			// save the time passed since it turns
+			l_time_passed = CurrentTick() - l_current_time;
+
+			if(l_time_passed <= l_turn_time_90) {
+				// Turn right to look for the line (maximum 90 degrees)
+				OnFwd(OUT_A, POWER);
+				OnRev(OUT_B, POWER);
+			} else {
+				if(l_time_passed <= l_turn_time_90 * 3) {
+					// Turn left to look for the line (maximum 270 degrees)
+					OnFwd(OUT_B, POWER);
+					OnRev(OUT_A, POWER);
+				} else {
+					// Turn right 90 degrees (back to the start position)
+					OnFwd(OUT_A, POWER);
+					OnRev(OUT_B, POWER);
+					Wait(l_turn_time_90);
+					Off(OUT_AB); // Stop motors
+
+					b_end_of_line = true;
+				}
+			}
+		}
+	}
 }
 
 long turn_time_90(int i_avg_light) {
