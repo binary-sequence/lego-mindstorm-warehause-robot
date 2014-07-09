@@ -1,8 +1,9 @@
 /**
   * avg_light
   *
-  * returns the average between the minimum light level (black, line to follow) and the maximum light level (white, empty space).
+  * @return int the average between the minimum light level (black, line to follow) and the maximum light level (white, empty space).
   *
+  * The light sensor must be connected to port 3.
   * The function has its own "POWER" (50).
   *
   */
