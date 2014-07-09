@@ -12,17 +12,17 @@ int avg_light(void);
 
 
 int avg_light(void) {
-	long end_time;
+	long l_end_time;
 	int i_avg_light;
 	int i_min = 999;
 	int i_max = -1;
 	int i_current_light = 0;
 
 	// Turning left
-	end_time = CurrentTick() + 600; // 600 ms ~=> 90 degrees
+	l_end_time = CurrentTick() + 600; // 600 ms ~=> 90 degrees
 	OnFwd(OUT_B, 50); // Motor B => right wheel
 	OnRev(OUT_A, 50); // Motor A => left wheel
-	while(CurrentTick() < end_time) {
+	while(CurrentTick() < l_end_time) {
 		i_current_light = Sensor(IN_3); // 3 => light sensor
 
 		if (i_current_light > i_max) {
@@ -33,10 +33,10 @@ int avg_light(void) {
 	}
 
 	// Turning right
-	end_time = CurrentTick() + 1200; // 1200 ms ~=> 180 degrees
+	l_end_time = CurrentTick() + 1200; // 1200 ms ~=> 180 degrees
 	OnFwd(OUT_A, 50); // Motor A => left wheel
 	OnRev(OUT_B, 50); // Motor B => right wheel
-	while (CurrentTick() < end_time) {
+	while (CurrentTick() < l_end_time) {
 		i_current_light = Sensor(IN_3); // 3 => light sensor
 
 		if (i_current_light > i_max) {
@@ -47,10 +47,10 @@ int avg_light(void) {
 	}
 
 	// Back to start position (turning left)
-	end_time = CurrentTick() + 600; // 600 ms ~=> 90 degrees
+	l_end_time = CurrentTick() + 600; // 600 ms ~=> 90 degrees
 	OnFwd(OUT_B, 50); // Motor B => right wheel
 	OnRev(OUT_A, 50); // Motor A => left wheel
-	while(CurrentTick() < end_time) {
+	while(CurrentTick() < l_end_time) {
 		i_current_light = Sensor(IN_3); // 3 => light sensor
 
 		if (i_current_light > i_max) {
