@@ -44,8 +44,8 @@ int avg_light(void) {
 
 	// Turning left
 	l_end_time = CurrentTick() + 600; // 600 ms ~=> 90 degrees
-	OnFwd(OUT_B, 50); // Motor B => right wheel
-	OnRev(OUT_A, 50); // Motor A => left wheel
+	OnFwd(OUT_B, POWER); // Motor B => right wheel
+	OnRev(OUT_A, POWER); // Motor A => left wheel
 	while(CurrentTick() < l_end_time) {
 		i_current_light = Sensor(IN_3); // 3 => light sensor
 
@@ -58,8 +58,8 @@ int avg_light(void) {
 
 	// Turning right
 	l_end_time = CurrentTick() + 1200; // 1200 ms ~=> 180 degrees
-	OnFwd(OUT_A, 50); // Motor A => left wheel
-	OnRev(OUT_B, 50); // Motor B => right wheel
+	OnFwd(OUT_A, POWER); // Motor A => left wheel
+	OnRev(OUT_B, POWER); // Motor B => right wheel
 	while (CurrentTick() < l_end_time) {
 		i_current_light = Sensor(IN_3); // 3 => light sensor
 
@@ -72,8 +72,8 @@ int avg_light(void) {
 
 	// Back to start position (turning left)
 	l_end_time = CurrentTick() + 600; // 600 ms ~=> 90 degrees
-	OnFwd(OUT_B, 50); // Motor B => right wheel
-	OnRev(OUT_A, 50); // Motor A => left wheel
+	OnFwd(OUT_B, POWER); // Motor B => right wheel
+	OnRev(OUT_A, POWER); // Motor A => left wheel
 	while(CurrentTick() < l_end_time) {
 		i_current_light = Sensor(IN_3); // 3 => light sensor
 
@@ -146,14 +146,14 @@ long turn_time_90(int i_avg_light) {
 	i_current_time = CurrentTick(); // save current time
 
 	// turn left out of the line
-	OnFwd(OUT_B, 50);
-	OnRev(OUT_A, 50);
+	OnFwd(OUT_B, POWER);
+	OnRev(OUT_A, POWER);
 	Wait(300);
 
 	// turn left until the line is found (~180 degrees).
 	do {
-		OnFwd(OUT_B, 50);
-		OnRev(OUT_A, 50);
+		OnFwd(OUT_B, POWER);
+		OnRev(OUT_A, POWER);
 		i_current_light = Sensor(IN_3);
 	} while(i_current_light >= i_avg_light);
 
@@ -162,8 +162,8 @@ long turn_time_90(int i_avg_light) {
 
 	// Back to start position.
 	// turn right out of the line
-	OnFwd(OUT_A, 50);
-	OnRev(OUT_B, 50);
+	OnFwd(OUT_A, POWER);
+	OnRev(OUT_B, POWER);
 	Wait(i_turn_time_180);
 
 	Off(OUT_AB); // stop motors
