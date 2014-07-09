@@ -1,3 +1,11 @@
+#include "lib/warehouse_robot.h"
+
 task main() {
-	// TODO
+	SetSensorLight(IN_3);
+	int i_avg_light = avg_light();
+
+  while(1) {
+		TextOut(1, LCD_LINE1, "avg_light: ");
+		NumOut(7*10, LCD_LINE1, i_avg_light);
+	}
 }
