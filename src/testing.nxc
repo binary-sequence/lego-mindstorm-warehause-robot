@@ -2,10 +2,14 @@
 
 task main() {
 	SetSensorLight(IN_3);
-	int i_avg_light = avg_light();
 
-  while(1) {
-		TextOut(1, LCD_LINE1, "avg_light: ");
-		NumOut(7*10, LCD_LINE1, i_avg_light);
-	}
+	int i_avg_light = avg_light();
+	TextOut(1, LCD_LINE1, "avg_light: ");
+	NumOut(6*10, LCD_LINE1, i_avg_light);
+
+	long l_turn_time_90 = turn_time_90(i_avg_light);
+	TextOut(1, LCD_LINE2, "turn_time_90: ");
+	NumOut(6*13, LCD_LINE2, l_turn_time_90);
+
+	while(1);
 }

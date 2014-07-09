@@ -8,6 +8,18 @@
   *
   */
 int avg_light(void);
+/**
+  * turn_time_90
+  *
+  * @parameter int the average of light to find the line.
+  *
+  * @return long time in milliseconds to turn 90 degree.
+  *
+  * The light sensor must be connected to port 3.
+  * The function has its own "POWER" (50).
+  *
+  */
+long turn_time_90(int i_avg_light);
 
 
 
@@ -65,4 +77,48 @@ int avg_light(void) {
 	i_avg_light = (i_min + i_max) / 2;
 
 	return i_avg_light;
+}
+
+long turn_time_90(int i_avg_light) {
+	SetSensorLight(IN_3);
+	int i_current_light = 0;
+	int i_current_time = 0;
+	int i_turn_time_180 = 0;
+
+	i_current_time = CurrentTick(); // save current time
+
+	// turn left out of the line
+	do {
+		OnFwd(OUT_B, 50);
+		OnRev(OUT_A, 50);
+		i_current_light = Sensor(IN_3);
+	} while(i_current_light < i_avg_light);
+
+	// turn left until the line is found (~180 degrees).
+	do {
+		OnFwd(OUT_B, 50);
+		OnRev(OUT_A, 50);
+		i_current_light = Sensor(IN_3);
+	} while(i_current_light > i_avg_light);
+
+	// save the amount of past time.
+	i_turn_time_180 = CurrentTick() - i_current_time;
+
+	// Back to start position.
+	// turn right out of the line
+	do {
+		OnFwd(OUT_A, 50);
+		OnRev(OUT_B, 50);
+		i_current_light = Sensor(IN_3);
+	} while(i_current_light < i_avg_light);
+	// turn right until the line is found (~180 degrees).
+	do {
+		OnFwd(OUT_A, 50);
+		OnRev(OUT_B, 50);
+		i_current_light = Sensor(IN_3);
+	} while(i_current_light > i_avg_light);
+
+	Off(OUT_AB); // stop motors
+
+	return (i_turn_time_180 / 2);
 }
