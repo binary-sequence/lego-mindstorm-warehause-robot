@@ -1,4 +1,4 @@
-#define POWER 50
+#define POWER 25
 
 /**
   * avg_light
