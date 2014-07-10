@@ -10,6 +10,11 @@
   */
 int avg_light(void);
 /**
+  * find_left_path
+  *
+  */
+void find_left_path(long l_turn_time_90);
+/**
   * follow_line
   *
   * @parameter int The average of light to find the line.
@@ -87,6 +92,19 @@ int avg_light(void) {
 	i_avg_light = (i_min + i_max) / 2;
 
 	return i_avg_light;
+}
+
+void find_left_path(long l_turn_time_90) {
+	// move ahead
+	OnFwd(OUT_AB, POWER);
+	Wait(500);
+
+	// Turn left 90 degrees.
+	OnFwd(OUT_B, POWER);
+	OnRev(OUT_A, POWER);
+	Wait(l_turn_time_90);
+
+	Off(OUT_AB); // stop motors
 }
 
 void follow_line(int i_avg_light, long l_turn_time_90) {
