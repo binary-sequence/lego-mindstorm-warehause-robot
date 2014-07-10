@@ -1,0 +1,68 @@
+#include "lib/warehouse_robot.h"
+
+task main() {
+	int i_object_color;
+
+	SetSensorLight(IN_3);
+	SetSensorLowspeed(IN_2);
+	SetSensorColorFull(IN_1);
+	SetSensorTouch(IN_4);
+
+	int i_avg_light = avg_light();
+	long l_turn_time_90 = turn_time_90(i_avg_light);
+
+	while(1) {
+		i_object_color = get_object_color();
+		Wait(800);
+
+		follow_line(i_avg_light, l_turn_time_90);
+
+		switch(i_object_color) {
+			case 5: // red
+				find_left_path(l_turn_time_90);
+			break;
+
+			case 6: // White
+				find_middle_path(l_turn_time_90);
+			break;
+		}
+
+		follow_line(i_avg_light, l_turn_time_90);
+
+		do {
+			TextOut(0, LCD_LINE1, "Push the button");
+			TextOut(0, LCD_LINE2, "and the robot");
+			TextOut(0, LCD_LINE3, "will go back to");
+			TextOut(0, LCD_LINE4, "the start");
+			TextOut(0, LCD_LINE5, "position.");
+		} while(Sensor(IN_4) == 0);
+		Wait(800);
+
+		// turn over (180 degrees)
+		OnFwd(OUT_B, POWER);
+		OnRev(OUT_A, POWER);
+		Wait(l_turn_time_90 * 2);
+		Off(OUT_AB);
+
+		follow_line(i_avg_light, l_turn_time_90);
+
+		switch(i_object_color) {
+			case 5: // red
+				find_right_path(l_turn_time_90);
+			break;
+
+			case 6: // White
+				find_middle_path(l_turn_time_90);
+				find_middle_path(l_turn_time_90);
+			break;
+		}
+
+		follow_line(i_avg_light, l_turn_time_90);
+
+		// turn over (180 degrees)
+		OnFwd(OUT_B, POWER);
+		OnRev(OUT_A, POWER);
+		Wait(l_turn_time_90 * 2);
+		Off(OUT_AB);
+	}
+}
