@@ -1,0 +1,13 @@
+#include "lib/warehouse_robot.h"
+
+task main() {
+	SetSensorColorFull(IN_1);
+	int i_current_color = 0;
+
+	while(1) {
+		i_current_color =  Sensor(IN_1);
+
+		TextOut(0, LCD_LINE1, "color: ");
+		NumOut(6*8, LCD_LINE1, i_current_color);
+	}
+}
