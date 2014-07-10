@@ -6,7 +6,6 @@
   * @return int The average between the minimum light level (black, line to follow) and the maximum light level (white, empty space).
   *
   * The light sensor must be connected to port 3.
-  * The function has its own "POWER" (50).
   *
   */
 int avg_light(void);
@@ -17,7 +16,6 @@ int avg_light(void);
   * @parameter long Time in milliseconds to turn 90 degree.
   *
   * The light sensor must be connected to port 3.
-  * The function has its own "POWER" (50).
   *
   */
 void follow_line(int i_avg_light, long l_turn_time_90);
