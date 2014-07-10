@@ -30,6 +30,11 @@ void find_middle_path(long l_turn_time_90);
   */
 void follow_line(int i_avg_light, long l_turn_time_90);
 /**
+  * get_object_color
+  *
+  */
+int get_object_color(void);
+/**
   * turn_time_90
   *
   * @parameter int The average of light to find the line.
@@ -165,6 +170,26 @@ void follow_line(int i_avg_light, long l_turn_time_90) {
 			}
 		}
 	}
+}
+
+int get_object_color(void) {
+	int i_current_color = 0;
+
+	do {
+		while(Sensor(IN_4) == 0) {
+			i_current_color = Sensor(IN_1);
+			TextOut(0, LCD_LINE1, "Reading color: ");
+			NumOut(0, LCD_LINE2, i_current_color);
+		}
+
+		if (i_current_color != 5 && i_current_color != 6) {
+			TextOut(0, LCD_LINE4, "Only accepts");
+			TextOut(0, LCD_LINE5, "red and white.");
+		}
+	} while(i_current_color != 5 && i_current_color != 6);
+	ClearScreen();
+
+	return i_current_color;
 }
 
 long turn_time_90(int i_avg_light) {
