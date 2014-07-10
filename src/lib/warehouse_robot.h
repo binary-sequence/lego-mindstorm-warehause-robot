@@ -20,6 +20,11 @@ void find_left_path(long l_turn_time_90);
   */
 void find_middle_path(long l_turn_time_90);
 /**
+  * find_right_path
+  *
+  */
+void find_right_path(long l_turn_time_90);
+/**
   * follow_line
   *
   * @parameter int The average of light to find the line.
@@ -121,6 +126,19 @@ void find_middle_path(long l_turn_time_90) {
 	// move ahead
 	OnFwd(OUT_AB, POWER);
 	Wait(500);
+
+	Off(OUT_AB); // stop motors
+}
+
+void find_right_path(long l_turn_time_90) {
+	// move ahead
+	OnFwd(OUT_AB, POWER);
+	Wait(500);
+
+	// Turn right 45 degrees.
+	OnFwd(OUT_A, POWER);
+	OnRev(OUT_B, POWER);
+	Wait(l_turn_time_90 / 2);
 
 	Off(OUT_AB); // stop motors
 }
