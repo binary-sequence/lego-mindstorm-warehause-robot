@@ -1,4 +1,6 @@
 lego-mindstorm-warehause-robot
 ==============================
 
-A robot that sort objects by color in a warehouse.
+A robot that sorts objects by color in a warehouse.
+
+![Lego robot](img/lego_mindstorm.jpg)
